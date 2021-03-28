@@ -9,7 +9,7 @@ def splitting (file, threads):
         files.append(f)
 
     for line, i in text, range(threads):
-        files[i].write(line)
+        files[i].write(line + "\n")
         if i == (threads - 1):
             i = 0
     for i in range(threads):
@@ -21,8 +21,9 @@ def mapping(list, name):
     file = open(path, "w")
     for line in list:
         line = line.strip()
+        line = line.lower()
         words = line.split()
         for word in words:
-            file.write(word)
+            file.write(word + "\n")
     file.close()
 
