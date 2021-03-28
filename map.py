@@ -8,7 +8,8 @@ def splitting (file, threads):
         f = open(finalpath, "w")
         files.append(f)
 
-    for line, i in text, range(threads):
+    #for line, i in text, range(threads):
+    for i in range(threads):
         files[i].write(line + "\n")
         if i == (threads - 1):
             i = 0
