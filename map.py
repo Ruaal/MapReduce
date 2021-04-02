@@ -1,4 +1,4 @@
-from main import THREADS
+from TextCounter import THREADS
 
 def splitting (file):
     text = open(file, "r")

@@ -1,5 +1,5 @@
 from multiprocessing import Lock
-from main import THREADS
+from TextCounter import THREADS
 def reduce(lock, idThread):
     file = open(("shuffleFile" + idThread), "r")
     result = open("result", "w")
