@@ -1,27 +1,29 @@
-from TextCounter import THREADS
+THREADS = 4
 
-def splitting (file):
+
+def splitting(file):
     text = open(file, "r")
-    #Agrupem el text en 5 paquets (1 per thread)
-    files = list
+    # Agrupem el text en 4 paquets (1 per thread)
+    files = []
     path = "splitFile"
     for i in range(THREADS):
-        finalpath = path + i
+        finalpath = path + str(i) + '.txt'
         f = open(finalpath, "w")
         files.append(f)
-
-    for line, i in text, range(THREADS):
-        files[i].write(line + "\n")
-        if i == (THREADS - 1):
+    i = 0
+    for line in text:
+        files[i].write(line)
+        i += 1
+        if i == (THREADS):
             i = 0
     for i in range(THREADS):
         files[i].close()
     text.close()
-    return files
+
 
 def mapping(idThread):
-    entry = open(("SplitFile" + idThread), "r")
-    path = "mapFile" + idThread
+    entry = open(("splitFile" + str(idThread) + '.txt'), "r")
+    path = "mapFile" + str(idThread) + '.txt'
     out = open(path, "w")
     for line in entry:
         line = line.strip()
@@ -31,4 +33,3 @@ def mapping(idThread):
             out.write(word + "\n")
     out.close()
     entry.close()
-
