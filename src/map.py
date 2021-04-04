@@ -1,14 +1,15 @@
-THREADS = 4
+THREADS = 2
 
 
 def splitting(file):
-    text = open(file, "r")
+    text = open(file, "r", encoding='utf8')
+    print(text.name + ":")
     # Agrupem el text en 4 paquets (1 per thread)
     files = []
     path = "splitFile"
     for i in range(THREADS):
         finalpath = path + str(i) + '.txt'
-        f = open(finalpath, "w")
+        f = open(finalpath, "w", encoding='utf8')
         files.append(f)
     i = 0
     for line in text:
@@ -22,14 +23,18 @@ def splitting(file):
 
 
 def mapping(idThread):
-    entry = open(("splitFile" + str(idThread) + '.txt'), "r")
+    entry = open(("splitFile" + str(idThread) + '.txt'), "r", encoding='utf8')
     path = "mapFile" + str(idThread) + '.txt'
-    out = open(path, "w")
+    out = open(path, "w", encoding='utf8')
     for line in entry:
         line = line.strip()
         line = line.lower()
         words = line.split()
         for word in words:
+            word = word.replace('.', '')
+            word = word.replace(',', '')
+            word = word.replace(';', '')
+            word = word.replace(' ', '')
             out.write(word + "\n")
     out.close()
     entry.close()
