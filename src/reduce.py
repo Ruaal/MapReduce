@@ -1,32 +1,30 @@
-THREADS = 2
+THREADS = 4
 
-def reduce(idThread):
-    file = open(("shuffleFile" + str(idThread) + '.txt'), "r", encoding='utf8')
-    wordCount = {}
-    i = 0
-    for word in sorted(file):
 
+def reduce(id_thread):  # conta la cantitat de paraules iguals que hi ha en el fitxer
+    file = open(("shuffleFile" + str(id_thread) + '.txt'), "r", encoding='utf8')
+    word_count = {}
+    for word in file:
         word = word.rstrip("\n")
-        if word in wordCount:
-            wordCount[word] = wordCount.get(word) + 1
+        if word in word_count:
+            word_count[word] = word_count.get(word) + 1
         else:
-            wordCount[word] = 1
-        if i >= 1000:
-            for key, value in wordCount.items():
-                print(str(key) + " : " + str(value))
-            wordCount.clear()
-    for key, value in wordCount.items():
+            word_count[word] = 1
+
+    for key, value in word_count.items():
         print(str(key) + " : " + str(value))
+
     file.close()
 
 
-def shuffle(idThread):
-    items = open(("mapFile" + str(idThread) + '.txt'), "r", encoding='utf8')
+def shuffle(id_thread):  # Assigna a cada fitxer un rang de lletres del alfabet i se li afegeixen les paraules que
+    # comencin per aquesta lletra. El rang es calcula amb el modul del numero de threads.
+    items = open(("mapFile" + str(id_thread) + '.txt'), "r", encoding='utf8')
     files = []
     path = "shuffleFile"
     for i in range(THREADS):
-        finalpath = path + str(i) + '.txt'
-        f = open(finalpath, "a+", encoding='utf8')
+        final_path = path + str(i) + '.txt'
+        f = open(final_path, "a+", encoding='utf8')
         files.append(f)
     for word in items:
         letter = ord(word[0]) - 97
@@ -37,13 +35,3 @@ def shuffle(idThread):
     for i in range(THREADS):
         files[i].close()
     items.close()
-
-
-
-# La idea seria crear n arxius i que cada thread escrigui en aquests arxius segons la lletra del abecedari rollo
-# un modul de 26, hauriem de crear uns semafors per que hi hagues inconscistencia
-
-# Podriem utilitzar el codi ascii per fer el modul (97-122 = a-z)
-
-# Hem de passar totes les lletres a lowercase en algun moment, sigui al principi o al final, ens estalviaria feina
-# pel codi ascii
